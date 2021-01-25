@@ -12,11 +12,16 @@ galleryId = ""
 def mainLoop():
     global URL
     global pnum
+    global galleryId
 
     URL = input("Please input the gallery url: ")
     url = "www.imagefap.com/pictures/"
     galleryId = URL.split(url)[-1]
     galleryId = galleryId.split("/")[0]
+    if galleryId == "":
+        url = "www.imagefap.com/gallery"
+        galleryId = URL.split(url)[-1]
+        galleryId = galleryId.split("/")[0]
     print("Extracted gallery ID = {}".format(galleryId))
     URL = F"https://{url}{galleryId}/?grid={galleryId}&view=2"
     validate(URL)
@@ -46,8 +51,7 @@ def getImages(html):
 def download(urls):
     image = urls[0]
     image = image[0]
-    dir_name = "Downloaded/{}".format(galleryId)
-    print(dir_name)
+    dir_name = f"Downloaded/{galleryId}"
     try:
         os.makedirs(dir_name)
     except:
@@ -56,9 +60,10 @@ def download(urls):
     for i, image in enumerate(urls):
         image = str(image[0])
         name = image.split("/")[-1].split("?end")[0]
+        j = i + 1
         with urllib.request.urlopen(image) as f:
             imageContent = f.read()
-            with open(f"{dir_name}/{i}-{name}", "wb") as f:
+            with open(f"{dir_name}/{j}-{name}", "wb") as f:
                 f.write(imageContent)
 
 
