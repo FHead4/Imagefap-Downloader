@@ -18,10 +18,11 @@ def mainLoop():
     url = "www.imagefap.com/pictures/"
     galleryId = URL.split(url)[-1]
     galleryId = galleryId.split("/")[0]
-    if galleryId == "":
-        url = "www.imagefap.com/gallery"
+    if galleryId == "" or galleryId == "https:":
+        url = "www.imagefap.com/gallery/"
         galleryId = URL.split(url)[-1]
         galleryId = galleryId.split("/")[0]
+        url = "www.imagefap.com/pictures/"
     print("Extracted gallery ID = {}".format(galleryId))
     URL = F"https://{url}{galleryId}/?grid={galleryId}&view=2"
     validate(URL)
